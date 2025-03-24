@@ -845,16 +845,7 @@
                     behavior: 'smooth'
                 });
             });
-        });
-        
-        // Product buttons functionality
-        document.querySelectorAll('.product-button').forEach(button => {
-            button.addEventListener('click', function() {
-                const productName = this.closest('.product-card').querySelector('.product-title').textContent;
-                alert(`${productName} added to cart!`);
-            });
-        });
-        
+        });        
         // Form submission
         const form = document.querySelector('.contact-form');
         if (form) {
