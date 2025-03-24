@@ -885,5 +885,101 @@
             window.dispatchEvent(new Event('scroll'));
         });
     </script>
+<!-- Cart Section (Drawer Style) -->
+<div id="cart-drawer" style="position: fixed; top: 0; right: -100%; width: 400px; height: 100%; background-color: #ffffff; box-shadow: -2px 0 10px rgba(0, 0, 0, 0.2); z-index: 9999; overflow-y: auto; transition: right 0.3s ease;">
+    <div style="padding: 20px; border-bottom: 1px solid #ddd;">
+        <h3 style="margin-bottom: 10px;">Your Cart</h3>
+        <button onclick="closeCart()" style="float: right; background: none; border: none; font-size: 18px; cursor: pointer;">&times;</button>
+    </div>
+
+    <div style="padding: 20px;">
+        <!-- Example Item -->
+        <div style="border-bottom: 1px solid #eee; padding-bottom: 15px; margin-bottom: 15px;">
+            <h4 id="cart-item-name">Sky and Sparrow Dress</h4>
+            <p id="cart-qty">Quantity: 1</p>
+            <p id="cart-price">Price: $29.99</p>
+            <p>Discount: $0.00</p>
+            <p>Delivery Charge: $3.00</p>
+            <p>Packaging Charge: $1.00</p>
+        </div>
+
+        <!-- Donation Checkbox -->
+        <div style="margin-bottom: 15px;">
+            <input type="checkbox" id="donate" onchange="toggleDonation()">
+            <label for="donate">Add a donation of $1 to support artisans</label>
+        </div>
+
+        <!-- Price Summary -->
+        <div style="border-top: 1px solid #ccc; padding-top: 15px;">
+            <p><strong>Subtotal:</strong> <span id="subtotal-price">$29.99</span></p>
+            <p><strong>Delivery:</strong> $3.00</p>
+            <p><strong>Packaging:</strong> $1.00</p>
+            <p id="donation-line" style="display: none;"><strong>Donation:</strong> $1.00</p>
+            <p><strong>Total:</strong> <span id="final-price">$33.99</span></p>
+        </div>
+
+        <!-- Delivery Estimate -->
+        <div style="margin-top: 20px;">
+            <p><strong>Estimated Delivery:</strong> 3–5 business days</p>
+        </div>
+
+        <!-- Checkout Button -->
+        <button style="width: 100%; margin-top: 20px; padding: 12px; background-color: #333; color: #fff; border: none; cursor: pointer;">Checkout</button>
+    </div>
+</div>
+
+<!-- Floating Cart Button -->
+<button onclick="openCart()" style="position: fixed; top: 20px; right: 20px; z-index: 10000; background-color: #333; color: white; border: none; border-radius: 50%; width: 50px; height: 50px; font-size: 20px; cursor: pointer;">
+    🛒
+</button>
+<script>
+    function openCart() {
+        document.getElementById('cart-drawer').style.right = '0';
+    }
+
+    function closeCart() {
+        document.getElementById('cart-drawer').style.right = '-100%';
+    }
+
+    function toggleDonation() {
+        const donationLine = document.getElementById('donation-line');
+        const finalPrice = document.getElementById('final-price');
+        if (donationLine.style.display === 'none') {
+            donationLine.style.display = 'block';
+            finalPrice.innerText = '$34.99';
+        } else {
+            donationLine.style.display = 'none';
+            finalPrice.innerText = '$33.99';
+        }
+    }
+
+    // Connect product buttons to cart
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.product-button').forEach(button => {
+            button.addEventListener('click', function () {
+                const productCard = this.closest('.product-card');
+                const productName = productCard.querySelector('.product-title').textContent;
+                const productPrice = productCard.querySelector('.product-price').textContent;
+
+                document.getElementById('cart-item-name').innerText = productName;
+                document.getElementById('cart-price').innerText = `Price: ${productPrice}`;
+                document.getElementById('subtotal-price').innerText = productPrice;
+
+                document.getElementById('final-price').innerText = calculateFinal(productPrice);
+
+                openCart();
+            });
+        });
+    });
+
+    function calculateFinal(priceText) {
+        const price = parseFloat(priceText.replace('$', ''));
+        let total = price + 3 + 1; // Delivery + Packaging
+        if (document.getElementById('donate').checked) {
+            total += 1;
+        }
+        return `$${total.toFixed(2)}`;
+    }
+</script>
 </body>
 </html>
