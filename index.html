@@ -1400,17 +1400,24 @@
             }
         }
 
+        function fetchWithTimeout(url, options, timeoutMs) {
+            const controller = new AbortController();
+            const timer = setTimeout(function () { controller.abort(); }, timeoutMs);
+            return fetch(url, Object.assign({}, options, { signal: controller.signal }))
+                .finally(function () { clearTimeout(timer); });
+        }
+
         async function transcribeAudio(blob) {
             const form = new FormData();
             form.append('file', blob, 'recording.webm');
             form.append('model', 'saarika:v2.5');
             form.append('language_code', 'en-IN');
 
-            const res = await fetch(SARVAM_BASE + '/speech-to-text', {
+            const res = await fetchWithTimeout(SARVAM_BASE + '/speech-to-text', {
                 method: 'POST',
                 headers: { 'api-subscription-key': apiKey },
                 body: form
-            });
+            }, 60000);
 
             if (!res.ok) {
                 const txt = await res.text().catch(function () { return res.status; });
@@ -1422,7 +1429,7 @@
         }
 
         async function chatWithLLM(userText) {
-            const res = await fetch(SARVAM_BASE + '/v1/chat/completions', {
+            const res = await fetchWithTimeout(SARVAM_BASE + '/v1/chat/completions', {
                 method: 'POST',
                 headers: {
                     'api-subscription-key': apiKey,
@@ -1430,6 +1437,7 @@
                 },
                 body: JSON.stringify({
                     model: 'sarvam-m',
+                    max_tokens: 120,
                     messages: [
                         {
                             role: 'system',
@@ -1438,7 +1446,7 @@
                         { role: 'user', content: userText }
                     ]
                 })
-            });
+            }, 60000);
 
             if (!res.ok) {
                 const txt = await res.text().catch(function () { return res.status; });
@@ -1450,7 +1458,7 @@
         }
 
         async function speakText(text) {
-            const res = await fetch(SARVAM_BASE + '/text-to-speech', {
+            const res = await fetchWithTimeout(SARVAM_BASE + '/text-to-speech', {
                 method: 'POST',
                 headers: {
                     'api-subscription-key': apiKey,
@@ -1463,7 +1471,7 @@
                     model: 'bulbul:v3',
                     enable_preprocessing: true
                 })
-            });
+            }, 60000);
 
             if (!res.ok) {
                 // TTS failure is non-fatal — text is already visible
