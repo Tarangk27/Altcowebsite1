@@ -485,16 +485,255 @@
             .section-title {
                 font-size: 24px;
             }
-            
+
             .hero-text {
                 font-size: 16px;
             }
-            
-            .initiatives-grid, 
+
+            .initiatives-grid,
             .product-grid,
             .category-grid {
                 grid-template-columns: 1fr;
             }
+        }
+
+        /* ===== Voice Agent Section ===== */
+        .voice-agent {
+            padding: 80px 0;
+            background-color: var(--white);
+        }
+
+        .voice-agent-subtitle {
+            text-align: center;
+            color: var(--accent-color);
+            margin-bottom: 40px;
+            font-size: 15px;
+        }
+
+        .va-api-setup {
+            max-width: 420px;
+            margin: 0 auto 40px;
+            background: var(--primary-color);
+            border-radius: 14px;
+            padding: 32px;
+            border: 1px solid #e8ddd8;
+            text-align: center;
+        }
+
+        .va-api-setup h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-color);
+        }
+
+        .va-api-setup p {
+            font-size: 12px;
+            color: var(--accent-color);
+            margin-bottom: 18px;
+        }
+
+        .va-api-setup input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #d0c8c2;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            font-family: inherit;
+            font-size: 14px;
+            background: var(--white);
+            color: var(--text-color);
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .va-api-setup input:focus {
+            border-color: var(--highlight);
+        }
+
+        .va-interface {
+            max-width: 580px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 28px;
+        }
+
+        /* Mic button + ripple rings */
+        .va-mic-wrapper {
+            position: relative;
+            width: 130px;
+            height: 130px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .va-mic-btn {
+            width: 82px;
+            height: 82px;
+            border-radius: 50%;
+            background: var(--highlight);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            color: var(--white);
+            position: relative;
+            z-index: 2;
+            transition: background 0.25s, transform 0.2s, box-shadow 0.25s;
+            box-shadow: 0 6px 24px rgba(224, 122, 95, 0.35);
+        }
+
+        .va-mic-btn:hover:not(:disabled) {
+            transform: scale(1.06);
+            box-shadow: 0 8px 30px rgba(224, 122, 95, 0.45);
+        }
+
+        .va-mic-btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .va-mic-btn.recording {
+            background: #c0392b;
+            box-shadow: 0 6px 24px rgba(192, 57, 43, 0.4);
+        }
+
+        .va-mic-btn.processing {
+            background: var(--accent-color);
+            box-shadow: 0 6px 24px rgba(136, 136, 136, 0.35);
+        }
+
+        .va-ring {
+            position: absolute;
+            border-radius: 50%;
+            border: 2px solid var(--highlight);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .va-ring-1 { width: 96px;  height: 96px; }
+        .va-ring-2 { width: 112px; height: 112px; }
+        .va-ring-3 { width: 128px; height: 128px; }
+
+        .va-mic-wrapper.recording .va-ring-1 { animation: va-ripple 1.6s 0.0s infinite; }
+        .va-mic-wrapper.recording .va-ring-2 { animation: va-ripple 1.6s 0.3s infinite; }
+        .va-mic-wrapper.recording .va-ring-3 { animation: va-ripple 1.6s 0.6s infinite; }
+
+        @keyframes va-ripple {
+            0%   { opacity: 0.65; transform: scale(0.82); }
+            100% { opacity: 0;    transform: scale(1.18); }
+        }
+
+        .va-status {
+            font-size: 14px;
+            color: var(--accent-color);
+            text-align: center;
+            min-height: 22px;
+            letter-spacing: 0.3px;
+        }
+
+        /* Conversation thread */
+        .va-conversation {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            max-height: 380px;
+            overflow-y: auto;
+            padding: 4px 2px;
+            scroll-behavior: smooth;
+        }
+
+        .va-conversation::-webkit-scrollbar { width: 4px; }
+        .va-conversation::-webkit-scrollbar-track { background: transparent; }
+        .va-conversation::-webkit-scrollbar-thumb { background: #d0c8c2; border-radius: 2px; }
+
+        .va-msg {
+            max-width: 78%;
+            padding: 13px 17px;
+            border-radius: 14px;
+            font-size: 14px;
+            line-height: 1.65;
+        }
+
+        .va-msg-label {
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            margin-bottom: 5px;
+            opacity: 0.65;
+        }
+
+        .va-msg.user {
+            align-self: flex-end;
+            background: var(--text-color);
+            color: var(--white);
+            border-bottom-right-radius: 4px;
+        }
+
+        .va-msg.user .va-msg-label { color: rgba(255,255,255,0.7); }
+
+        .va-msg.assistant {
+            align-self: flex-start;
+            background: var(--primary-color);
+            color: var(--text-color);
+            border: 1px solid #e0d8d2;
+            border-bottom-left-radius: 4px;
+        }
+
+        .va-msg.thinking {
+            align-self: flex-start;
+            background: transparent;
+            color: var(--accent-color);
+            font-style: italic;
+            font-size: 13px;
+            padding: 8px 4px;
+        }
+
+        .va-msg.error {
+            align-self: center;
+            background: #fff0ee;
+            color: var(--highlight);
+            border: 1px solid #f5cec6;
+            border-radius: 8px;
+            font-size: 13px;
+            max-width: 90%;
+            text-align: center;
+        }
+
+        .va-change-key {
+            background: none;
+            border: 1px solid #d0c8c2;
+            padding: 6px 16px;
+            cursor: pointer;
+            border-radius: 20px;
+            color: var(--accent-color);
+            font-family: inherit;
+            font-size: 12px;
+            transition: border-color 0.2s, color 0.2s;
+        }
+
+        .va-change-key:hover {
+            border-color: var(--highlight);
+            color: var(--highlight);
+        }
+
+        @keyframes va-spin {
+            from { transform: rotate(0deg); }
+            to   { transform: rotate(360deg); }
+        }
+
+        .va-spin { display: inline-block; animation: va-spin 0.9s linear infinite; }
+
+        @media (max-width: 480px) {
+            .va-interface { gap: 20px; }
+            .va-msg { max-width: 90%; }
         }
     </style>
 </head>
@@ -512,6 +751,7 @@
                         <li><a href="#initiatives">Initiatives</a></li>
                         <li><a href="#about">About</a></li>
                         <li><a href="#contact">Contact</a></li>
+                        <li><a href="#voice-agent" style="color: var(--highlight);">&#127908; Voice Agent</a></li>
                     </ul>
                 </nav>
             </div>
@@ -790,6 +1030,43 @@
         </div>
     </section>
 
+    <!-- Voice Agent Section -->
+    <section class="voice-agent" id="voice-agent">
+        <div class="container">
+            <h2 class="section-title">Voice Assistant</h2>
+            <p class="voice-agent-subtitle">Speak with our AI assistant — ask about products, materials, or anything ALT CO</p>
+
+            <!-- API Key Setup -->
+            <div class="va-api-setup" id="va-api-setup">
+                <h3>Connect Sarvam API Key</h3>
+                <p>Your key is stored in this browser session only and sent directly to Sarvam AI</p>
+                <input type="password" id="va-api-key-input" placeholder="Enter your Sarvam API key" autocomplete="off">
+                <button class="btn" id="va-save-key" style="width: 100%;">Connect &amp; Start</button>
+            </div>
+
+            <!-- Voice Interface (hidden until key is set) -->
+            <div class="va-interface" id="va-interface" style="display: none;">
+
+                <!-- Mic button with ripple rings -->
+                <div class="va-mic-wrapper" id="va-mic-wrapper">
+                    <button class="va-mic-btn" id="va-mic-btn" title="Click to speak">
+                        <i class="fas fa-microphone" id="va-mic-icon"></i>
+                    </button>
+                    <div class="va-ring va-ring-1"></div>
+                    <div class="va-ring va-ring-2"></div>
+                    <div class="va-ring va-ring-3"></div>
+                </div>
+
+                <p class="va-status" id="va-status">Tap the mic to speak</p>
+
+                <!-- Conversation thread -->
+                <div class="va-conversation" id="va-conversation"></div>
+
+                <button class="va-change-key" id="va-change-key">Change API Key</button>
+            </div>
+        </div>
+    </section>
+
     <!-- Footer -->
     <footer>
         <div class="container">
@@ -803,6 +1080,7 @@
                         <li><a href="#initiatives">Initiatives</a></li>
                         <li><a href="#about">About</a></li>
                         <li><a href="#contact">Contact</a></li>
+                        <li><a href="#voice-agent">Voice Agent</a></li>
                     </ul>
                 </div>
                 <div class="footer-column">
@@ -980,6 +1258,255 @@
         }
         return `$${total.toFixed(2)}`;
     }
+
+    // ===== Voice Agent =====
+    (function () {
+        const SARVAM_BASE = 'https://api.sarvam.ai';
+
+        let apiKey = '';
+        let mediaRecorder = null;
+        let audioChunks = [];
+        let isRecording = false;
+        let isProcessing = false;
+
+        const vaApiSetup   = document.getElementById('va-api-setup');
+        const vaInterface  = document.getElementById('va-interface');
+        const vaApiInput   = document.getElementById('va-api-key-input');
+        const vaSaveKey    = document.getElementById('va-save-key');
+        const vaMicWrapper = document.getElementById('va-mic-wrapper');
+        const vaMicBtn     = document.getElementById('va-mic-btn');
+        const vaMicIcon    = document.getElementById('va-mic-icon');
+        const vaStatus     = document.getElementById('va-status');
+        const vaConvo      = document.getElementById('va-conversation');
+        const vaChangeKey  = document.getElementById('va-change-key');
+
+        // Restore key from session
+        const savedKey = sessionStorage.getItem('va_sarvam_key');
+        if (savedKey) {
+            apiKey = savedKey;
+            showInterface();
+        }
+
+        vaSaveKey.addEventListener('click', function () {
+            const key = vaApiInput.value.trim();
+            if (!key) { vaApiInput.focus(); return; }
+            apiKey = key;
+            sessionStorage.setItem('va_sarvam_key', key);
+            showInterface();
+        });
+
+        vaApiInput.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') vaSaveKey.click();
+        });
+
+        vaChangeKey.addEventListener('click', function () {
+            apiKey = '';
+            sessionStorage.removeItem('va_sarvam_key');
+            vaApiInput.value = '';
+            vaInterface.style.display = 'none';
+            vaApiSetup.style.display = 'block';
+        });
+
+        vaMicBtn.addEventListener('click', async function () {
+            if (isProcessing) return;
+            if (!isRecording) {
+                await startRecording();
+            } else {
+                await stopAndProcess();
+            }
+        });
+
+        function showInterface() {
+            vaApiSetup.style.display = 'none';
+            vaInterface.style.display = 'flex';
+        }
+
+        async function startRecording() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+
+                const mimeType = ['audio/webm;codecs=opus', 'audio/webm', 'audio/ogg;codecs=opus']
+                    .find(t => MediaRecorder.isTypeSupported(t)) || '';
+
+                mediaRecorder = new MediaRecorder(stream, mimeType ? { mimeType } : {});
+                audioChunks = [];
+
+                mediaRecorder.ondataavailable = function (e) {
+                    if (e.data && e.data.size > 0) audioChunks.push(e.data);
+                };
+
+                mediaRecorder.start(200);
+                isRecording = true;
+
+                vaMicWrapper.classList.add('recording');
+                vaMicBtn.classList.add('recording');
+                vaMicIcon.className = 'fas fa-stop';
+                setStatus('Listening\u2026 tap to stop');
+            } catch (err) {
+                addMsg('error', 'Microphone access denied. Please allow microphone access in your browser and try again.');
+            }
+        }
+
+        async function stopAndProcess() {
+            if (!mediaRecorder) return;
+
+            isRecording = false;
+            isProcessing = true;
+
+            vaMicWrapper.classList.remove('recording');
+            vaMicBtn.classList.remove('recording');
+            vaMicBtn.classList.add('processing');
+            vaMicBtn.disabled = true;
+            vaMicIcon.className = 'fas fa-circle-notch va-spin';
+            setStatus('Transcribing\u2026');
+
+            const audioBlob = await new Promise(function (resolve) {
+                mediaRecorder.onstop = function () {
+                    resolve(new Blob(audioChunks, { type: mediaRecorder.mimeType || 'audio/webm' }));
+                };
+                mediaRecorder.stop();
+                mediaRecorder.stream.getTracks().forEach(function (t) { t.stop(); });
+            });
+
+            try {
+                // Step 1 — Speech-to-Text
+                const transcript = await transcribeAudio(audioBlob);
+                if (!transcript || !transcript.trim()) {
+                    addMsg('error', 'No speech detected. Please try again.');
+                    return;
+                }
+                addMsg('user', transcript);
+
+                // Step 2 — LLM
+                setStatus('Thinking\u2026');
+                const thinkingMsg = addMsg('thinking', '\u25cf\u25cf\u25cf');
+                const reply = await chatWithLLM(transcript);
+                thinkingMsg.remove();
+                addMsg('assistant', reply);
+
+                // Step 3 — Text-to-Speech
+                setStatus('Speaking\u2026');
+                await speakText(reply);
+
+                setStatus('Tap the mic to speak');
+            } catch (err) {
+                addMsg('error', err.message || 'Something went wrong. Check your API key and try again.');
+                setStatus('Tap the mic to speak');
+            } finally {
+                isProcessing = false;
+                vaMicBtn.classList.remove('processing');
+                vaMicBtn.disabled = false;
+                vaMicIcon.className = 'fas fa-microphone';
+            }
+        }
+
+        async function transcribeAudio(blob) {
+            const form = new FormData();
+            form.append('file', blob, 'recording.webm');
+            form.append('model', 'saarika:v2.5');
+            form.append('language_code', 'en-IN');
+
+            const res = await fetch(SARVAM_BASE + '/speech-to-text', {
+                method: 'POST',
+                headers: { 'api-subscription-key': apiKey },
+                body: form
+            });
+
+            if (!res.ok) {
+                const txt = await res.text().catch(function () { return res.status; });
+                throw new Error('Speech-to-text failed (' + res.status + '): ' + txt);
+            }
+
+            const data = await res.json();
+            return data.transcript || '';
+        }
+
+        async function chatWithLLM(userText) {
+            const res = await fetch(SARVAM_BASE + '/v1/chat/completions', {
+                method: 'POST',
+                headers: {
+                    'api-subscription-key': apiKey,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    model: 'sarvam-m',
+                    messages: [
+                        {
+                            role: 'system',
+                            content: 'You are a warm, knowledgeable assistant for ALT CO — a minimalist home goods brand that curates handcrafted everyday essentials made by artisans. Help customers with product questions, material details, care tips, and general enquiries. Keep responses concise (2-4 sentences) and conversational.'
+                        },
+                        { role: 'user', content: userText }
+                    ]
+                })
+            });
+
+            if (!res.ok) {
+                const txt = await res.text().catch(function () { return res.status; });
+                throw new Error('LLM request failed (' + res.status + '): ' + txt);
+            }
+
+            const data = await res.json();
+            return data.choices[0].message.content;
+        }
+
+        async function speakText(text) {
+            const res = await fetch(SARVAM_BASE + '/text-to-speech', {
+                method: 'POST',
+                headers: {
+                    'api-subscription-key': apiKey,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    inputs: [text],
+                    target_language_code: 'en-IN',
+                    speaker: 'meera',
+                    model: 'bulbul:v3',
+                    enable_preprocessing: true
+                })
+            });
+
+            if (!res.ok) {
+                // TTS failure is non-fatal — text is already visible
+                console.warn('TTS failed:', res.status);
+                return;
+            }
+
+            const data = await res.json();
+            const b64 = data.audios && data.audios[0];
+            if (!b64) return;
+
+            await new Promise(function (resolve) {
+                const audio = new Audio('data:audio/wav;base64,' + b64);
+                audio.onended = resolve;
+                audio.onerror = resolve; // don't block on audio errors
+                audio.play().catch(resolve);
+            });
+        }
+
+        function addMsg(type, text) {
+            const el = document.createElement('div');
+            el.className = 'va-msg ' + type;
+
+            if (type === 'user' || type === 'assistant') {
+                const lbl = document.createElement('div');
+                lbl.className = 'va-msg-label';
+                lbl.textContent = type === 'user' ? 'You' : 'ALT CO';
+                el.appendChild(lbl);
+            }
+
+            const body = document.createElement('div');
+            body.textContent = text;
+            el.appendChild(body);
+
+            vaConvo.appendChild(el);
+            vaConvo.scrollTop = vaConvo.scrollHeight;
+            return el;
+        }
+
+        function setStatus(text) {
+            vaStatus.textContent = text;
+        }
+    })();
 </script>
 </body>
 </html>
